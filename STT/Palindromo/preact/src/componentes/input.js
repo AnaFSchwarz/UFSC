@@ -3,25 +3,23 @@ import theme from '../theme.ts';
 import Alerta from './alerta';
 import Verificador from './verificador';
 import {Box, Button, TextField, Typography} from '@mui/material';
-
+import { useSelector, useDispatch, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import historicoRespostas from '../Redux/Actions'
 
 const ANSWER = 'answer';
 const INPUT= 'input';
+const add = historicoRespostas.add
+const remove = historicoRespostas.remove
 
-const Input = () => {
-    
+const Input = ({add}) => {
+  
+  //const historico = useSelector(state => state.historico)
+  const dispatch = useDispatch()
+
   const [input, setInput] = useState('');
   const [finalAnswer, setFinalAnswer] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    if (!localStorage.getItem(INPUT)) {
-      localStorage.setItem(INPUT,JSON.stringify([]));
-    };
-  }, []);
-
-  
-
 
   const handleSearch = () =>{
     if (input === '') {
@@ -30,21 +28,41 @@ const Input = () => {
     }
     let resposta = ''
     if(Verificador(input)) {
-      resposta = ' é um Palíndromo';   
+      resposta = ' é um Palíndromo';  
     } else {
       resposta = ' não é um Palíndromo';        
     };
-    updateLocalStorage(resposta);
-    setFinalAnswer(input + resposta);    
+
+    add({input, anser: resposta})
+    setFinalAnswer(input + resposta);
+    //dispatch(historicoRespostas.add({input, anser: resposta})) 
+    setInput('')
     return true;
   };
-      
-  const updateLocalStorage = (re) => {
+
+  
+  /*const updateLocalStorage = (re) => {
     console.log(localStorage.getItem(ANSWER));
     const itens = JSON.parse(localStorage.getItem(INPUT));
     const itensAtualizados = [...itens,{input, anser: re}];
+
     localStorage.setItem(INPUT,JSON.stringify(itensAtualizados));
   };
+  useEffect(() => {
+    if (!localStorage.getItem(INPUT)) {
+      localStorage.setItem(INPUT,JSON.stringify([]));
+    };
+  }, []);
+
+  const historico = useSelector((state) => state.notes);
+  const dispatch = useDispatch();
+
+  const addHistorico = (finalAnswer) => {
+    dispatch(historicoRespostas(finalAnswer));
+  };*/
+  const updateStorage = (re) => {
+    const sendHistorico = {input, answer: re}
+  }
 
   return (
       <div>
@@ -72,4 +90,13 @@ const Input = () => {
   );
 };
 
-export default Input;
+const mapStateToProp = state => {
+   return {historico: state.Reducer.historico}
+}//retorna JSON
+
+const mapDispatchToProps = dispatch => ({
+  add: bindActionCreators(historicoRespostas.add, dispatch),
+  remove: bindActionCreators(historicoRespostas.remove, dispatch)
+})
+
+export default connect(mapStateToProp, mapDispatchToProps)(Input);

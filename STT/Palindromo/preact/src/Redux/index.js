@@ -1,19 +1,23 @@
-import Types from './Types'
-import { combineReducers } from 'redux';
+import { ADDHISTORICO, REMOVE } from './Types';
+import {combineReducers } from 'redux';
 
+//Reducer
 const initialState = {
     historico: []
 };
-
-//Reducer
-function index (prevState = initialState, action) {
-    if (action.type === Types.HISTORUCO){
-        return {
-            ...prevState,
-            historico: [...prevState.historico, action.historico]
-        }
-    } else {
-        return prevState
+ 
+const index = (State = initialState, action) => {
+    const { payload, type } = action
+    const {historico} = State
+    switch (type) {
+        case ADDHISTORICO: 
+            return {
+            ...State,
+            historico: [...State.historico, payload.historico /*action.historico*/]       } 
+        case REMOVE:  
+                return {...State, historico: historico.filter(resposta => resposta !== payload)}
+        default: 
+            return State
     }
 }
 

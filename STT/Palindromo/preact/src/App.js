@@ -10,9 +10,9 @@ import Left from './componentes/leftComponent';
 import Verificador from './componentes/verificador';
 import { Header } from './componentes/header.js';
 import theme from './theme.ts';
-import { ThemeProvider } from '@mui/system';
+import {ThemeProvider} from '@mui/system';
 import {Provider} from 'react-redux';
-//import {Store} from './Store';
+import { Store } from './Store';
 //separar componentes
 //importar action no novo campo de texto
 //connect, mapStatoToProps e mapDispatchToProps

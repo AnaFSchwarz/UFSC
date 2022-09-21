@@ -1,3 +1,2 @@
-const HISTORICO = 'historico';
-
-export default {HISTORICO};
+export const ADDHISTORICO = 'addhistorico';
+export const REMOVE = 'remove';
