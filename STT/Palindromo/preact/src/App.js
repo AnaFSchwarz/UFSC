@@ -43,14 +43,12 @@ function App() {
     const itensAtualizados = [...itens,{input, anser: re}];
     localStorage.setItem(INPUT,JSON.stringify(itensAtualizados));
   };*/
-
-//dlimpar APP.js
   return ( 
     <Provider store = {Store}>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme = { theme }>
       <CssBaseline/>
         <Header/>
-      <Grid container spacing={2}>
+      <Grid container spacing = {2}>
         <Grid item xs={12} md={7}>  
           <Input/>
         </Grid>

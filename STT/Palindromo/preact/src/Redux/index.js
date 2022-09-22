@@ -8,16 +8,17 @@ const initialState = {
  
 const index = (State = initialState, action) => {
     const { payload, type } = action
-    const {historico} = State
     switch (type) {
-        case ADDHISTORICO: 
+        case ADDHISTORICO:         
+        console.log(action.payload)
             return {
             ...State,
-            historico: [...State.historico, payload.historico /*action.historico*/]       } 
+            historico: [...State.historico, payload]} 
         case REMOVE:  
-                return {...State, historico: historico.filter(resposta => resposta !== payload)}
-        default: 
-            return State
+        console.log(action.payload)
+                return {
+                    historico: [...State.historico.filter((id) => id.id !== action.payload.id)]}
+        default: return State
     }
 }
 

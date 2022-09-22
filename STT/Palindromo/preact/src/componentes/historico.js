@@ -10,22 +10,15 @@ import {
     Paper,
     Button
 } from '@mui/material';
-import { MapStateToProp, connect  } from 'react-redux';
-import { useSelector, useDispatch } from "react-redux";
-//import { index } from '../Redux';
+import { connect  } from 'react-redux';
+import historicoRespostas from '../Redux/Actions'
 //redux mapStatetoProcs
 //outro componente de texto mapDispatchToProps
 
 const ANSWER = 'answer'
 const INPUT = 'input'
 
-const Historico = () => {
-    const [input, setInput] = useState([])
-    const [answer, setAnswer] = useState([])
-
-    const historico = useSelector((state) => state.historico)
-    
-    const dispatch = useDispatch();
+const Historico = ({remove, historico}) => {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
@@ -33,7 +26,17 @@ const Historico = () => {
             color: theme.palette.primary.main,
             fontSize: 20,
         }));
-    /*useEffect(() => {
+    
+        const handleAlterate = (id) =>{
+            remove({id});
+            return true;
+        }
+
+        const itens = historico.slice(historico.length - 10);
+
+    /*const [input, setInput] = useState([])
+    const [answer, setAnswer] = useState([])
+    useEffect(() => {
         if (localStorage.getItem(INPUT)) {
             setInput(JSON.parse(localStorage.getItem(INPUT)));
         };
@@ -46,14 +49,15 @@ const Historico = () => {
                 <TableHead>
                 </TableHead>
                 <TableBody >
-                    {historico.map(row=> (
-                    <TableRow key={row}>
+                    {itens.map (row => (
+                    <TableRow key={row.id}>
                         <StyledTableCell align="center">{row.input}</StyledTableCell>
                         <StyledTableCell align="left">{row.anser}</StyledTableCell>
-                         <StyledTableCell>
-                            <Button type='submit' className="button" color="secondary" variant="contained" >
+                        <StyledTableCell>
+                        <Button type='submit' className="button" color="secondary" variant="contained" 
+                             onClick={() => handleAlterate(row.id)}>
                             Remover</Button>
-                        </StyledTableCell>
+                        </StyledTableCell>                      
                     </TableRow>                            
                     ))}                    
                  </TableBody>
@@ -62,4 +66,12 @@ const Historico = () => {
     )
 };
 
-export default Historico;
+const mapStateToProp = state => {
+    return {historico: state.index.historico}
+ }//retorna JSON
+
+const mapDispatchToProps = dispatch => ({
+  remove: historico => dispatch(historicoRespostas.remove(historico))
+})
+
+export default connect (mapStateToProp, mapDispatchToProps)(Historico);

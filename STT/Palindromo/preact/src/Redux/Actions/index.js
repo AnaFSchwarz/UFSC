@@ -6,9 +6,9 @@ const historicoRespostas = {/*(itensAtualizados)*/
         payload: historico
         //historico: itensAtualizados,//payload(dispatch){}
     }),
-    remove: historico => ({
+    remove: id => ({
         type: REMOVE,
-        payload: historico
+        payload: id
     })
 };
 

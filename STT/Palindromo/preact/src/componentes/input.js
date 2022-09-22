@@ -9,13 +9,8 @@ import historicoRespostas from '../Redux/Actions'
 
 const ANSWER = 'answer';
 const INPUT= 'input';
-const add = historicoRespostas.add
-const remove = historicoRespostas.remove
 
 const Input = ({add}) => {
-  
-  //const historico = useSelector(state => state.historico)
-  const dispatch = useDispatch()
 
   const [input, setInput] = useState('');
   const [finalAnswer, setFinalAnswer] = useState('');
@@ -32,11 +27,9 @@ const Input = ({add}) => {
     } else {
       resposta = ' não é um Palíndromo';        
     };
-
-    add({input, anser: resposta})
+    add({input, anser: resposta, id: new Date().getTime()});
     setFinalAnswer(input + resposta);
-    //dispatch(historicoRespostas.add({input, anser: resposta})) 
-    setInput('')
+    setInput('');
     return true;
   };
 
@@ -60,16 +53,13 @@ const Input = ({add}) => {
   const addHistorico = (finalAnswer) => {
     dispatch(historicoRespostas(finalAnswer));
   };*/
-  const updateStorage = (re) => {
-    const sendHistorico = {input, answer: re}
-  }
 
   return (
       <div>
       {errorMessage && (<Alerta/>)}<br/>   
       <div className="input"style={{textAlign: 'center', margin: theme.spacing(5)}}>
         <Box sx= {{alignItems: 'center'}}>
-          <TextField fullwidth className='input'
+          <TextField className='input'
             label="Digite uma palavra ou frase" 
             variant="standard" 
             sx={{ m: 1, width: '25ch' }}
@@ -90,13 +80,8 @@ const Input = ({add}) => {
   );
 };
 
-const mapStateToProp = state => {
-   return {historico: state.Reducer.historico}
-}//retorna JSON
-
 const mapDispatchToProps = dispatch => ({
-  add: bindActionCreators(historicoRespostas.add, dispatch),
-  remove: bindActionCreators(historicoRespostas.remove, dispatch)
-})
+  add: historico => dispatch(historicoRespostas.add(historico))
+});
 
-export default connect(mapStateToProp, mapDispatchToProps)(Input);
+export default connect(null, mapDispatchToProps)(Input);
